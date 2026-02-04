@@ -1,5 +1,11 @@
 #include "so_long.h"
 
+void    print_error()
+{
+    write(2, "Error\n", 6);
+    exit(1);
+}
+
 t_size	get_size(char **src)
 {
 	int		i;
@@ -48,7 +54,7 @@ int	main(int ag, char **av)
 		ft_free(data.tab, data.size.height);
 		print_error();
 	}
-	so_long(&data);
+	// so_long(&data);
 	// ft_free(data.tab, data.size.height);
 	return(0);
 }

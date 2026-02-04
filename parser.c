@@ -1,29 +1,40 @@
 #include "so_long.h"
 
-void    print_error()
+char	**filling_loop_W(char **tab, int x, int y, t_count *count)
 {
-    write(2, "Error\n", 6);
-    exit(1);
+	if (tab[y][x] == 'C')
+		count->C++;
+	tab[y][x] = 'W';
+	if (tab[y - 1][x] != '1' && tab[y - 1][x] != 'W'
+		&& tab[y - 1][x] != 'E')
+		tab = filling_loop_W(tab, x, y - 1, count);
+	if (tab[y][x - 1] != '1' && tab[y][x - 1] != 'W'
+		&& tab[y][x - 1] != 'E')
+		tab = filling_loop_W(tab, x - 1, y, count);
+	if (tab[y + 1][x] != '1' && tab[y + 1][x] != 'W'
+		&& tab[y + 1][x] != 'E')
+		tab = filling_loop_W(tab, x, y + 1, count);
+	if (tab[y][x + 1] != '1' && tab[y][x + 1] != 'W'
+		&& tab[y][x + 1] != 'E')
+		tab = filling_loop_W(tab, x + 1, y, count);
+	return (tab);
 }
-
-
-char	**filling_loop(char **tab, int x, int y, t_count *count)
+char	**filling_loop_1(char **tab, int x, int y, t_count *count)
 {
 	if (tab[y][x] == 'E')
 		count->E++;
-	if (tab[y][x] == 'C')
-		count->C++;
 	tab[y][x] = '1';
 	if (tab[y - 1][x] != '1')
-		tab = filling_loop(tab, x, y - 1, count);
+		tab = filling_loop_1(tab, x, y - 1, count);
 	if (tab[y][x - 1] != '1')
-		tab = filling_loop(tab, x - 1, y, count);
+		tab = filling_loop_1(tab, x - 1, y, count);
 	if (tab[y + 1][x] != '1')
-		tab = filling_loop(tab, x, y + 1, count);
+		tab = filling_loop_1(tab, x, y + 1, count);
 	if (tab[y][x + 1] != '1')
-		tab = filling_loop(tab, x + 1, y, count);
+		tab = filling_loop_1(tab, x + 1, y, count);
 	return (tab);
 }
+
 
 int	flood_filling(char **tab, t_data *data, t_size index)
 {
@@ -48,7 +59,9 @@ int	flood_filling(char **tab, t_data *data, t_size index)
 		}
 		y++;
 	}
-	filling_loop(tab, index.width, index.height, &verif);
+	filling_loop_W(tab, index.width, index.height, &verif);
+	if (data->count.C == verif.C)
+		filling_loop_1(tab, index.width, index.height, &verif);
 	if (data->count.E != verif.E || data->count.C != verif.C)
 		return(1);
 	return(0);
