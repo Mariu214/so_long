@@ -83,14 +83,13 @@ static char	*ft_remplissage(char *array, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	*array;
+	char	*array;
 	int			i;
 
 	i = 0;
 	if (fd < 0)
 		return (NULL);
-	if (!array)
-		array = ft_calloc(sizeof(char), (1));
+	array = ft_calloc(sizeof(char), (1));
 	array = ft_remplissage(array, fd);
 	if (!array)
 		return (NULL);
@@ -99,13 +98,6 @@ char	*get_next_line(int fd)
 		array = ft_nullify(array);
 		free(array);
 		return (NULL);
-	}
-	while (array[i + 1])
-		i++;
-	while (array[i] == '\n')
-	{
-		array[i] = '\0';
-		i--;	
 	}
 	return (array);
 }

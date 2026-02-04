@@ -6,6 +6,7 @@ SRC = 	./main.c\
 		./init_mlx.c\
 		./mlx_usage.c\
 		./mlx_commands.c\
+		./mlx_bonus.c\
 
 C = cc
 FLAGS = -Wall -Werror -Wextra
@@ -19,10 +20,10 @@ all: $(NAME)
 
 $(OBJ_DIR)/%.o: %.c
 	mkdir -p $(OBJ_DIR)
-	$(C) $(FLAGS) -Imlx -c $< -o $@
+	$(C) $(FLAGS) -Imlx -c -g $< -o $@
 
 $(NAME): $(OBJ)
-	$(C) $(FLAGS) $(OBJ) -Lmlx -lmlx -lXext -lX11 -Iincludes -Imlx -g -o $(NAME)
+	$(C) $(FLAGS) $(OBJ) -Lmlx -lmlx -lXext -lX11 -Iincludes -Imlx -g3 -o $(NAME)
 
 clean:
 	rm -f $(OBJ)
